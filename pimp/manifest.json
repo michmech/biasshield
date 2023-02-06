@@ -13,8 +13,8 @@
   },
   "content_scripts": [{
     "matches": [
-      "*://translate.google.com/*",
-      "*://www.deepl.com/translator"
+      "https://translate.google.com/*",
+      "https://www.deepl.com/translator"
     ],
     "js": ["pimp.js"],
     "css": ["pimp.css"]

@@ -1,6 +1,41 @@
 const DeBiasByUs={
-  srcLangs: ["en"],
-  trgLangs: ["de", "nl"],
+  langs: {
+    "ar": 1,
+    "zh": 2,
+    "zh-CN": 2,
+    "cs": 3,
+    "da": 4,
+    "nl": 5,
+    "en": 6,
+    "fr": 7,
+    "de": 8,
+    "el": 9,
+    "it": 10,
+    "ja": 11,
+    "kk": 12,
+    "fa": 13,
+    "pl": 14,
+    "pt": 16,
+    "ro": 15,
+    "ru": 17,
+    "sl": 21,
+    "es": 18,
+    "tr": 19,
+    "uk": 20,
+  },
+  sites: {
+    "google": 1,
+    "deepl": 2,
+  },
+  composeUrl: function(){
+    let url=`https://debiasbyus.ugent.be/share/`;
+    url+=`?srcLang=${DeBiasByUs.langs[Pimp.lastScrapeResult.srcLang]}`;
+    url+=`&srcText=${encodeURIComponent(Pimp.lastScrapeResult.srcText)}`;
+    url+=`&trgLang=${DeBiasByUs.langs[Pimp.lastScrapeResult.trgLang]}`;
+    url+=`&trgText=${encodeURIComponent(Pimp.lastScrapeResult.trgText)}`;
+    url+=`&site=${DeBiasByUs.sites[Pimp.siteName]}`;
+    return url;    
+  },
 };
 
 const Fairslator={
@@ -54,12 +89,14 @@ const Pimp={
         console.log("yes change", scrapeResult);
         Pimp.lastScrapeResult=scrapeResult;
         //determine the state of DeBiasByUs:
+        console.log(DeBiasByUs.langs[scrapeResult.srcLang]);
         if(!scrapeResult.trgText){
           Pimp.setState("debiasbyus", "noTranslation", false);
-        } else if(DeBiasByUs.srcLangs.indexOf(scrapeResult.srcLang)==-1 || DeBiasByUs.trgLangs.indexOf(scrapeResult.trgLang)==-1) {
+        } else if(!DeBiasByUs.langs[scrapeResult.srcLang] || !DeBiasByUs.langs[scrapeResult.trgLang]) {
           Pimp.setState("debiasbyus", "unsupportedLanguagPair", false);
         } else {
           Pimp.setState("debiasbyus", "offerToReport", true);
+          Pimp.el.querySelector("a.submitReport").href=DeBiasByUs.composeUrl();
         }
         //determine the state of Fairslator:
         if(!scrapeResult.trgText){
@@ -111,13 +148,13 @@ Pimp.el.innerHTML=`
       <div class="state unsupportedLanguagPair" style="display: none">
         <div class="status">
           This translation is in an unsupported language pair.
-          <span class="substatus">Visit <a href="https://debiasbyus.ugent.be/">DeBiasByUs</a> for a list of languages we support.</span><
+          <span class="substatus">Visit <a href="https://debiasbyus.ugent.be/">DeBiasByUs</a> for a list of languages we support.</span>
         </div>
       </div>
       <div class="state offerToReport" style="display: none">
         <div class="status">
-          <span class="action" tabindex="0">Report a gender-biased translation</span>
-          <a href="https://debiasbyus.ugent.be/learn/">What is a gender-biased translation?</a>
+          <a class="action submitReport" target="_blank" href="https://debiasbyus.ugent.be/share/">Report a gender-biased translation</a>
+          <a target="_blank" href="https://debiasbyus.ugent.be/learn/">What is a gender-biased translation?</a>
         </div>
       </div>
     </div>

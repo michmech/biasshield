@@ -51,22 +51,22 @@ body > div.pimp > div.tabs > div.tab.current {
   background-color: #cccccc;
 }
 body > div.pimp > div.tabs > div.tab.debiasbyus {
-  background-image: url(graphics/debiasbyus.png);
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/debiasbyus.png);
   background-position: center;
   background-size: auto 25px;
   background-repeat: no-repeat;
 }
 body > div.pimp > div.tabs > div.tab.fairslator {
-  background-image: url(graphics/fairslator.png);
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/fairslator.png);
   background-position: center;
   background-size: auto 25px;
   background-repeat: no-repeat;
 }
 body > div.pimp > div.tabs > div.tab.debiasbyus.off {
-  background-image: url(graphics/debiasbyus-off.png);
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/debiasbyus-off.png);
 }
 body > div.pimp > div.tabs > div.tab.fairslator.off {
-  background-image: url(graphics/fairslator-off.png);
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/fairslator-off.png);
 }
 
 body > div.pimp div.identity {
@@ -78,7 +78,7 @@ body > div.pimp div.identity > a.identity {
   color: #b50000;
   text-decoration: none;
   padding: 2px 0px 0px 25px;
-  background-image: url(graphics/shield.png);
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/shield.png);
   background-repeat: no-repeat;
   background-position: center left;
   background-size: auto 20px;
@@ -105,7 +105,7 @@ body > div.pimp div.status a:hover {
   text-decoration: underline;
 }
 
-body > div.pimp span.action {
+body > div.pimp a.action {
   background-color: #eeeeee;
   color: #000000;
   border: 1px solid #336699;
@@ -114,11 +114,12 @@ body > div.pimp span.action {
   margin-bottom: 10px;
   cursor: pointer;
   margin-right: 10px;
+  text-decoration: none !important;
 }
-body > div.pimp span.action:hover {
+body > div.pimp a.action:hover {
   background-color: #ffffff;
 }
-body > div.pimp span.action:active {
+body > div.pimp a.action:active {
   position: relative;
   top: 1px;
   left: 1px;
@@ -128,7 +129,7 @@ body > div.pimp span.waiter {
   display: inline-block;
   height: 1em;
   width: 30px;
-  background-image: url(graphics/preloader.gif);
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/preloader.gif);
   background-repeat: no-repeat;
   background-size: contain;
   background-repeat: no-repeat;
