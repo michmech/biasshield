@@ -34,47 +34,47 @@ const DeBiasByUs={
   //URL at which to report a biased translation, with some fields prefilled:
   composeSubmitUrl: function(){
     let url=`https://debiasbyus.ugent.be/share/`;
-    url+=`?srcLang=${DeBiasByUs.langs[Pimp.lastScrapeResult.srcLang]}`;
-    url+=`&srcText=${encodeURIComponent(Pimp.lastScrapeResult.srcText)}`;
-    url+=`&trgLang=${DeBiasByUs.langs[Pimp.lastScrapeResult.trgLang]}`;
-    url+=`&trgText=${encodeURIComponent(Pimp.lastScrapeResult.trgText)}`;
-    url+=`&site=${DeBiasByUs.sites[Pimp.siteName]}`;
+    url+=`?srcLang=${DeBiasByUs.langs[BiasShield.lastScrapeResult.srcLang]}`;
+    url+=`&srcText=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
+    url+=`&trgLang=${DeBiasByUs.langs[BiasShield.lastScrapeResult.trgLang]}`;
+    url+=`&trgText=${encodeURIComponent(BiasShield.lastScrapeResult.trgText)}`;
+    url+=`&site=${DeBiasByUs.sites[BiasShield.siteName]}`;
     return url;    
   },
 
   //URL at which to lookup a previously reported biased translation:
   composeLookupUrl: function(){
     let url=`https://debiasbyus.ugent.be/lookup/`;
-    url+=`?srcLang=${DeBiasByUs.langs[Pimp.lastScrapeResult.srcLang]}`;
-    url+=`&srcText=${encodeURIComponent(Pimp.lastScrapeResult.srcText)}`;
-    url+=`&trgLang=${DeBiasByUs.langs[Pimp.lastScrapeResult.trgLang]}`;
-    url+=`&trgText=${encodeURIComponent(Pimp.lastScrapeResult.trgText)}`;
+    url+=`?srcLang=${DeBiasByUs.langs[BiasShield.lastScrapeResult.srcLang]}`;
+    url+=`&srcText=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
+    url+=`&trgLang=${DeBiasByUs.langs[BiasShield.lastScrapeResult.trgLang]}`;
+    url+=`&trgText=${encodeURIComponent(BiasShield.lastScrapeResult.trgText)}`;
     return url;    
   },
 
   //check whether the current translation has already been reported as biased:
   check: function(){
     window.setTimeout(function(){
-      const isBiased=(Pimp.lastScrapeResult.srcLang=="en" && Pimp.lastScrapeResult.srcText=="I need a doctor." && Pimp.lastScrapeResult.trgLang=="de" && Pimp.lastScrapeResult.trgText=="Ich brauche einen Arzt.");
+      const isBiased=(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I need a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich brauche einen Arzt.");
       const unbiasedVersion="Ich brauche ärtzliche Hilfe."; 
       if(isBiased) {
-        Pimp.setState("debiasbyus", "alreadyReported", true);
-        Pimp.el.querySelector("a.lookupReport").href=DeBiasByUs.composeLookupUrl();
-        Pimp.el.querySelector("span.unbias").style.display="inline";
-        Pimp.el.querySelector("span.ununbias").style.display="none";
-        Pimp.el.querySelector("span.unbias").addEventListener("click", function(){
-          Pimp.injectTranslation(unbiasedVersion);
-          Pimp.el.querySelector("span.unbias").style.display="none";
-          Pimp.el.querySelector("span.ununbias").style.display="inline";
+        BiasShield.setState("debiasbyus", "alreadyReported", true);
+        BiasShield.el.querySelector("a.lookupReport").href=DeBiasByUs.composeLookupUrl();
+        BiasShield.el.querySelector("span.unbias").style.display="inline";
+        BiasShield.el.querySelector("span.ununbias").style.display="none";
+        BiasShield.el.querySelector("span.unbias").addEventListener("click", function(){
+          BiasShield.injectTranslation(unbiasedVersion);
+          BiasShield.el.querySelector("span.unbias").style.display="none";
+          BiasShield.el.querySelector("span.ununbias").style.display="inline";
         });
-        Pimp.el.querySelector("span.ununbias").addEventListener("click", function(){
-          Pimp.injectTranslation(Pimp.lastScrapeResult.trgText);
-          Pimp.el.querySelector("span.unbias").style.display="inline";
-          Pimp.el.querySelector("span.ununbias").style.display="none";
+        BiasShield.el.querySelector("span.ununbias").addEventListener("click", function(){
+          BiasShield.injectTranslation(BiasShield.lastScrapeResult.trgText);
+          BiasShield.el.querySelector("span.unbias").style.display="inline";
+          BiasShield.el.querySelector("span.ununbias").style.display="none";
         });
       } else {
-        Pimp.setState("debiasbyus", "notYetReported", false);
-        Pimp.el.querySelector("a.submitReport").href=DeBiasByUs.composeSubmitUrl();
+        BiasShield.setState("debiasbyus", "notYetReported", false);
+        BiasShield.el.querySelector("a.submitReport").href=DeBiasByUs.composeSubmitUrl();
       }
     }, 1000);
   },
@@ -90,7 +90,7 @@ const Fairslator={
   },
 };
 
-const Pimp={
+const BiasShield={
   //our DOM element <div class="pimp"> at the bottom of the screen:
   el: null,
 
@@ -99,18 +99,18 @@ const Pimp={
 
   //switch to a tab ("debiasbyus" or "fairslator"): 
   switchTab: function(nick){
-    Pimp.el.querySelectorAll(".tabs > .tab").forEach(el => {el.classList.remove("current")});
-    Pimp.el.querySelector(`.tabs > .tab.${nick}`).classList.add("current");
-    Pimp.el.querySelectorAll(".tabBodies > .tabBody").forEach(el => {el.style.display="none"});
-    Pimp.el.querySelector(`.tabBodies > .tabBody.${nick}`).style.display="block";
+    BiasShield.el.querySelectorAll(".tabs > .tab").forEach(el => {el.classList.remove("current")});
+    BiasShield.el.querySelector(`.tabs > .tab.${nick}`).classList.add("current");
+    BiasShield.el.querySelectorAll(".tabBodies > .tabBody").forEach(el => {el.style.display="none"});
+    BiasShield.el.querySelector(`.tabBodies > .tabBody.${nick}`).style.display="block";
   },
 
   //set the state of a tab (whoNick = "debiasbyus" or "fairslator"): 
   setState: function(whoNick, stateNick, isTabLitUp){
-    Pimp.el.querySelectorAll(`.tabBody.${whoNick} .state`).forEach(el => { el.style.display="none"; });
-    Pimp.el.querySelectorAll(`.tabBody.${whoNick} .state.${stateNick}`).forEach(el => { el.style.display="block"; });
-    if(isTabLitUp) Pimp.el.querySelector(`.tab.${whoNick}`).classList.remove("off");
-    else Pimp.el.querySelector(`.tab.${whoNick}`).classList.add("off");
+    BiasShield.el.querySelectorAll(`.tabBody.${whoNick} .state`).forEach(el => { el.style.display="none"; });
+    BiasShield.el.querySelectorAll(`.tabBody.${whoNick} .state.${stateNick}`).forEach(el => { el.style.display="block"; });
+    if(isTabLitUp) BiasShield.el.querySelector(`.tab.${whoNick}`).classList.remove("off");
+    else BiasShield.el.querySelector(`.tab.${whoNick}`).classList.add("off");
   },
 
   //tell us what's on the screen:
@@ -142,37 +142,37 @@ const Pimp={
   check: function(){
     console.log("checking...");
     try{
-      const scrapeResult=Pimp.scrapeScreen();
-      if(scrapeResult.srcLang==Pimp.lastScrapeResult.srcLang
-      && scrapeResult.srcText==Pimp.lastScrapeResult.srcText
-      && scrapeResult.trgLang==Pimp.lastScrapeResult.trgLang
-      && (scrapeResult.trgText==Pimp.lastScrapeResult.trgText || scrapeResult.trgText==Pimp.injectedTranslation)
+      const scrapeResult=BiasShield.scrapeScreen();
+      if(scrapeResult.srcLang==BiasShield.lastScrapeResult.srcLang
+      && scrapeResult.srcText==BiasShield.lastScrapeResult.srcText
+      && scrapeResult.trgLang==BiasShield.lastScrapeResult.trgLang
+      && (scrapeResult.trgText==BiasShield.lastScrapeResult.trgText || scrapeResult.trgText==BiasShield.injectedTranslation)
       ){
         console.log("no change");
       } else {
         console.log("yes change", scrapeResult);
-        Pimp.lastScrapeResult=scrapeResult;
+        BiasShield.lastScrapeResult=scrapeResult;
         
         //determine the state of debiasbyus:
         if(!scrapeResult.trgText){
-          Pimp.setState("debiasbyus", "noTranslation", false);
+          BiasShield.setState("debiasbyus", "noTranslation", false);
         } else if(!DeBiasByUs.langs[scrapeResult.srcLang] || !DeBiasByUs.langs[scrapeResult.trgLang]) {
-          Pimp.setState("debiasbyus", "unsupportedLanguagPair", false);
+          BiasShield.setState("debiasbyus", "unsupportedLanguagPair", false);
         } else {
-          Pimp.setState("debiasbyus", "checking", false);
+          BiasShield.setState("debiasbyus", "checking", false);
           DeBiasByUs.check();
         }
         
         //determine the state of fairslator:
         if(!scrapeResult.trgText){
-          Pimp.setState("fairslator", "noTranslation", false);
+          BiasShield.setState("fairslator", "noTranslation", false);
         } else if(!Fairslator.langPairs[`${scrapeResult.srcLang}-${scrapeResult.trgLang}`]) {
-          Pimp.setState("fairslator", "unsupportedLanguagPair", false);
+          BiasShield.setState("fairslator", "unsupportedLanguagPair", false);
         } else {
-          Pimp.setState("fairslator", "detectingAmbiguities", false);
+          BiasShield.setState("fairslator", "detectingAmbiguities", false);
         }
       }
-      window.setTimeout(Pimp.check, 2000);
+      window.setTimeout(BiasShield.check, 2000);
     } catch(err){
       console.log(err);
     }
@@ -188,22 +188,22 @@ const Pimp={
       document.querySelectorAll("#target-dummydiv").forEach(el => {el.textContent=text});
       document.querySelectorAll("section.lmt__side_container--target p").forEach(el => {el.textContent=text});
     }
-    Pimp.injectedTranslation=text;
+    BiasShield.injectedTranslation=text;
   }
 };
 //everything beyond this point runs once when the extension is being loaded
 
 //discover which site we are on, google or deepl:
-if(/translate\.google\.com$/.test(window.location.hostname)) Pimp.siteName="google";
-else if(/www\.deepl\.com$/.test(window.location.hostname)) Pimp.siteName="deepl";
+if(/translate\.google\.com$/.test(window.location.hostname)) BiasShield.siteName="google";
+else if(/www\.deepl\.com$/.test(window.location.hostname)) BiasShield.siteName="deepl";
 
 //create our DOM element:
-document.querySelectorAll("div.pimp").forEach(el => el.remove());
-Pimp.el=document.createElement("div");
-Pimp.el.classList.add("pimp");
+document.querySelectorAll("div.biasshield").forEach(el => el.remove());
+BiasShield.el=document.createElement("div");
+BiasShield.el.classList.add("biasshield");
 
 //populate our DOM element:
-Pimp.el.innerHTML=`
+BiasShield.el.innerHTML=`
   <div class="tabs">
     <div tabindex="0" class="tab debiasbyus off current" title="DeBiasByUs"></div>
     <div tabindex="0" class="tab fairslator off" title="Fairslator"></div>
@@ -288,17 +288,17 @@ Pimp.el.innerHTML=`
 `;
 
 //attach click events to tabs:
-Pimp.el.querySelectorAll(".tabs > .tab").forEach(el => {
+BiasShield.el.querySelectorAll(".tabs > .tab").forEach(el => {
   el.addEventListener("click", function(e){
-    if(e.target.classList.contains("debiasbyus")) Pimp.switchTab("debiasbyus");
-    if(e.target.classList.contains("fairslator")) Pimp.switchTab("fairslator");
+    if(e.target.classList.contains("debiasbyus")) BiasShield.switchTab("debiasbyus");
+    if(e.target.classList.contains("fairslator")) BiasShield.switchTab("fairslator");
   });
 });
 
 //attach our DOM element to the DOM:
 document.body.style.paddingBottom="400px";
-document.body.appendChild(Pimp.el);
+document.body.appendChild(BiasShield.el);
 
 //start checking for screen changes every two seconds: 
 console.log("I'm here.");
-Pimp.check();
+BiasShield.check();

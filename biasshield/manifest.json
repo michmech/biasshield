@@ -16,8 +16,8 @@
       "https://translate.google.com/*",
       "https://www.deepl.com/translator"
     ],
-    "js": ["pimp.js"],
-    "css": ["pimp.css"]
+    "js": ["biasshield.js"],
+    "css": ["biasshield.css"]
   }],
   "web_accessible_resources": [
     {

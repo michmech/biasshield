@@ -10,23 +10,10 @@ In Firefox: Open the `about:debugging` page, click the *This Firefox* option, cl
 
 ## Credits
 
-Shield icon: https://thenounproject.com/icon/shield-5472411/
+- Shield icon: https://thenounproject.com/icon/shield-5472411/
+- Check and warning icons: Font Awesome
 
-## States
-
-debiasbyus
-- noTranslation => tab off
-- unsupportedLanguagPair => tab off
-- offerToReport
-- ...
-
-fairslator
-- noTranslation => tab off
-- unsupportedLanguagePair => tab off
-- detectingAmbiguities => tab off
-- ...
-
-## Cross-browser shit
+## Cross-browser stuff
 
 Background images in CSS:
 - Firefox: `background-image: url('images/main.png');`
