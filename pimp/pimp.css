@@ -8,14 +8,15 @@ body > div.pimp {
   bottom: 0px;
   left: 0px;
   right: 0px;
-  padding: 20px;
+  padding: 20px 30px;
   border-top: 2px solid #209cee;
-  background-color: #cccccc;
+  background-color: #edf2f5;
   color: #000000 !important;
   box-shadow: -2px -2px 0px #dddddd, 2px -2px 0px #eeeeee;
   z-index: 10000000;
   box-sizing: border-box;
   text-shadow: 1px 1px 0px #dddddd;
+  user-select: none;
 }
 body > div.pimp :not(.fa) { /* DeepL override: */
   font-family: 'Source Sans Pro', Verdana, sans-serif !important;
@@ -37,7 +38,7 @@ body > div.pimp > div.tabs > div.tab {
   padding: 10px 0px;
   border-radius: 2px 2px 0px 0px;
   text-align: center;
-  background-color: #eeeeee;
+  background-color: #edf2f5;
   color: #ffffff;
   border-top: 2px solid #999999;
   box-shadow: -2px -2px 0px #dddddd, 2px -2px 0px #eeeeee;
@@ -48,7 +49,7 @@ body > div.pimp > div.tabs > div.tab.current {
   margin-top: 0px;
   height: 50px;
   border-top: 2px solid #209cee;
-  background-color: #cccccc;
+  background-color: #edf2f5;
 }
 body > div.pimp > div.tabs > div.tab.debiasbyus {
   background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/debiasbyus.png);
@@ -72,6 +73,7 @@ body > div.pimp > div.tabs > div.tab.fairslator.off {
 body > div.pimp div.identity {
   float: right;
   white-space: nowrap;
+  line-height: 3em;
 }
 body > div.pimp div.identity > a.identity {
   display: block;
@@ -92,6 +94,7 @@ body > div.pimp div.identity > a.identity:hover {
 
 body > div.pimp div.status {
   color: inherit;
+  line-height: 3em;
 }
 body > div.pimp div.status > span.substatus {
   margin-left: 0.15em;
@@ -105,21 +108,22 @@ body > div.pimp div.status a:hover {
   text-decoration: underline;
 }
 
-body > div.pimp a.action {
-  background-color: #eeeeee;
+body > div.pimp .action {
+  background-color: #ffffff;
   color: #000000;
   border: 1px solid #336699;
   padding: 8px 12px;
   border-radius: 20px;
   margin-bottom: 10px;
   cursor: pointer;
-  margin-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   text-decoration: none !important;
 }
-body > div.pimp a.action:hover {
-  background-color: #ffffff;
+body > div.pimp .action:hover {
+  background-color: #ffffef;
 }
-body > div.pimp a.action:active {
+body > div.pimp .action:active {
   position: relative;
   top: 1px;
   left: 1px;
@@ -132,9 +136,34 @@ body > div.pimp span.waiter {
   background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/preloader.gif);
   background-repeat: no-repeat;
   background-size: contain;
-  background-repeat: no-repeat;
   background-position: center;
   position: relative;
   top: 3px;
   margin-right: 10px;
+}
+
+body > div.pimp span.icon {
+  display: inline-block;
+  height: 1.5em;
+  width: 1.5em;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  top: 0.35em;
+  margin-right: 0.15em;
+}
+/* colour-to-filter generator: https://codepen.io/sosuke/pen/Pjoqqp */
+body > div.pimp span.icon.grey {
+  color: #999999;
+  filter: invert(71%) sepia(2%) saturate(2%) hue-rotate(242deg) brightness(86%) contrast(88%);
+}
+body > div.pimp span.icon.red {
+  color: #b50000;
+  filter: invert(14%) sepia(61%) saturate(6556%) hue-rotate(357deg) brightness(71%) contrast(116%);
+}
+body > div.pimp span.icon.check {
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/check-circle-solid.svg);
+}
+body > div.pimp span.icon.warning {
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/exclamation-triangle-solid.svg);
 }

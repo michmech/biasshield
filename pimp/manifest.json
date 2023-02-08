@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Bias Shield",
-  "version": "1.0",
-  "description": "Push back against bias in machine translation",
+  "version": "0.1",
+  "description": "Push back against bias in machine translation!",
   "homepage_url": "https://www.biasshield.org/",
   "icons": {
     "16": "icons/icon-16.png",
@@ -23,7 +23,8 @@
     {
       "resources": [
         "graphics/*.png",
-        "graphics/*.gif"
+        "graphics/*.gif",
+        "graphics/*.svg"
       ],
       "matches": [
         "https://translate.google.com/*",
