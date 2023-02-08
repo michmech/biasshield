@@ -101,7 +101,7 @@ body > div.biasshield div.status > span.substatus {
   color: #666666;
 }
 body > div.biasshield div.status a {
-  color: #003366;
+  color: #209cee;
   text-decoration: none;
 }
 body > div.biasshield div.status a:hover {
@@ -110,7 +110,7 @@ body > div.biasshield div.status a:hover {
 
 body > div.biasshield .action {
   background-color: #ffffff;
-  color: #000000;
+  color: #336699 !important;
   border: 1px solid #336699;
   padding: 8px 12px;
   border-radius: 20px;
@@ -150,7 +150,7 @@ body > div.biasshield span.icon {
   background-position: center;
   position: relative;
   top: 0.35em;
-  margin-right: 0.15em;
+  margin-right: 0.5em;
 }
 /* colour-to-filter generator: https://codepen.io/sosuke/pen/Pjoqqp */
 body > div.biasshield span.icon.grey {
@@ -166,4 +166,33 @@ body > div.biasshield span.icon.check {
 }
 body > div.biasshield span.icon.warning {
   background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/exclamation-triangle-solid.svg);
+}
+
+body > div.biasshield div.disambiguators {
+  overflow-y: auto;
+  background-color: #ffffff;
+  margin-top: 10px;
+  padding: 20px 20px 10px 20px;
+  border: 1px solid #209cee;
+  border-radius: 4px;
+}
+body > div.biasshield div.disambiguators div.disambiguator {
+  margin: 0px 0px 10px 0px;
+  line-height: 1.5em;
+}
+body > div.biasshield div.disambiguators div.disambiguator div.title {
+  font-weight: bold;
+  display: inline;
+  margin-right: 0.5em;
+}
+body > div.biasshield div.disambiguators div.disambiguator div.option {
+  display: inline;
+  margin-right: 1em;
+  white-space: nowrap;
+}
+body > div.biasshield div.disambiguators div.disambiguator div.option label {
+  cursor: pointer;
+}
+body > div.biasshield div.disambiguators div.disambiguator div.option label:hover {
+  color: #209cee;
 }

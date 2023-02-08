@@ -31,5 +31,11 @@
         "https://www.deepl.com/*"
       ]
     }
-  ]
+  ],
+  "host_permissions": [
+    "https://xrayapi20220103180040.azurewebsites.net/"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }

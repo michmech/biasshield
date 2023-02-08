@@ -88,6 +88,129 @@ const Fairslator={
     "en-cs": true,
     "en-ga": true,
   },
+
+  //detect ambiguities in a translation:
+  analyze: function(){
+    let url="https://xrayapi20220103180040.azurewebsites.net/analyze.json";
+    url+=`?srcLang=${BiasShield.lastScrapeResult.srcLang}`;
+    url+=`&srcText=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
+    url+=`&trgLang=${BiasShield.lastScrapeResult.trgLang}`;
+    url+=`&trgText=${encodeURIComponent(BiasShield.lastScrapeResult.trgText)}`;
+    console.log(url);
+    chrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
+      console.log(json);
+      const axes=json.axes;
+      if(Object.keys(axes).length==0){
+        BiasShield.setState("fairslator", "noAmbiguitiesDetected", false);
+      } else {
+        BiasShield.setState("fairslator", "ambiguitiesDetected", true);
+        Fairslator.axes=axes;
+        Fairslator.drawAmbiguities();
+      }
+    });
+  },
+  axes: {},
+
+  //draw the disambiguators that users are going to select from:
+  drawAmbiguities: function(){
+    let fairslatorUrl="https://www.fairslator.com/";
+      fairslatorUrl+=`?machine=${BiasShield.siteName}`;
+      fairslatorUrl+=`&srcLang=${BiasShield.lastScrapeResult.srcLang}`;
+      fairslatorUrl+=`&trgLang=${BiasShield.lastScrapeResult.trgLang}`;
+      fairslatorUrl+=`&text=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
+      BiasShield.el.querySelector("a.takeItToFairslator").href=fairslatorUrl;
+    const container=BiasShield.el.querySelector(".disambiguators");
+    container.innerHTML="";
+    for(const axisKey in Fairslator.axes){
+      const axis=Fairslator.axes[axisKey];
+      let title="";
+        if(axisKey==1) title="Who is saying it?";
+        if(axisKey==2) title="Who are you saying it to?";
+        if(axisKey>=3){
+          if(axis.current.indexOf("s")>-1 && axis.descriptor) title=`Who is the ${axis.descriptor}?`;
+          if(axis.current.indexOf("s")>-1 && !axis.descriptor) title=`Who is it?`;
+          if(axis.current.indexOf("p")>-1 && axis.descriptor) title=`Who are the ${axis.descriptor}?`;
+          if(axis.current.indexOf("p")>-1 && !axis.descriptor) title=`Who are they?`;
+        }
+      
+      let html=`
+        <div class="disambiguator">
+          <div class="title">${title}</div>
+      `;
+      const ambiguities=axis.ambiguity.split("|");
+      for(let i=0; i<ambiguities.length; i++){
+        const val=ambiguities[i];
+        html+=`<div class="option"><label><input type="radio" ${val==axis.current ? "checked" : ""} name="${axisKey}" value="${val}"/> ${Fairslator.getDisambigLabel(val)}</label></div>`;
+      }
+      html+=`
+        </div>
+      `;
+      container.innerHTML+=html;
+    }
+    container.querySelectorAll("input").forEach(el => {
+      el.addEventListener("change", function(){
+        Fairslator.reinflect();
+      });
+    });
+  },
+
+  //harvest the user's manual disambiguations and reinflect the translation:
+  reinflect: function(){
+    const axes={};
+    BiasShield.el.querySelectorAll(".disambiguators input").forEach(el => {
+      if(el.checked){
+        const name=el.getAttribute("name");
+        const value=el.getAttribute("value");
+        if(Fairslator.axes[name].current!=value) axes[name]=value;
+      }
+    });
+    if(Object.keys(axes)==0){
+      BiasShield.injectTranslation(BiasShield.lastScrapeResult.trgText);
+    } else {
+      let url="https://xrayapi20220103180040.azurewebsites.net/reinflect.json";
+      url+=`?srcLang=${BiasShield.lastScrapeResult.srcLang}`;
+      url+=`&srcText=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
+      url+=`&trgLang=${BiasShield.lastScrapeResult.trgLang}`;
+      url+=`&trgText=${encodeURIComponent(BiasShield.lastScrapeResult.trgText)}`;
+      for(const axisKey in axes){
+        url+=`&axes[${axisKey}]=${axes[axisKey]}`
+      }
+      console.log(url);
+      chrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
+        if(json.text) BiasShield.injectTranslation(json.text);
+      });
+    }
+  },
+
+  getDisambigLabel: function(code){
+    const labels={
+      "sm": "a man",
+      "sf": "a woman",
+      "sb": "a person of unspecified gender",
+      "pm": "a group of men",
+      "pf": "a group of women",
+      "pb": "a mixed-gender group",
+      "s": "one person",
+      "ts": "one person, addressed casually",
+      "tsm": "a man, addressed casually",
+      "tsf": "a woman, addressed casually",
+      "tsb": "a person of unspecified gender, addressed casually",
+      "vs": "one person, addressed politely",
+      "vsm": "a man, addressed politely",
+      "vsf": "a woman, addressed politely",
+      "vsb": "a person of unspecified gender, addressed politely",
+      "p": "more than one person",
+      "tp": "more than one person, addressed casually",
+      "tpm": "a group of men, addressed casually",
+      "tpf": "a group of women, addressed casually",
+      "tpf": "a mixed-gender group, addressed casually",
+      "vp": "more than one person, addressed politely",
+      "vpm": "a group of men, addressed politely",
+      "vpf": "a group of women, addressed politely",
+      "vpb": "a mixed-gender group, addressed politely",
+    };
+    return labels[code] || code;
+  },
 };
 
 const BiasShield={
@@ -170,6 +293,7 @@ const BiasShield={
           BiasShield.setState("fairslator", "unsupportedLanguagPair", false);
         } else {
           BiasShield.setState("fairslator", "detectingAmbiguities", false);
+          Fairslator.analyze();
         }
       }
       window.setTimeout(BiasShield.check, 2000);
@@ -242,7 +366,7 @@ BiasShield.el.innerHTML=`
         <div class="status">
           <span class="icon warning red"></span> This translation has previously been reported as gender-biased.
           <span class="action unbias">Unbias</span>
-          <span class="action ununbias">Original</span>
+          <span class="action ununbias">Back to original</span>
           <a class="lookupReport" target="_blank" href="#">Details...</a>
         </div>
       </div>
@@ -281,6 +405,22 @@ BiasShield.el.innerHTML=`
           <span class="waiter"></span>
           Detecting ambiguities...
         </div>
+      </div>
+
+      <!--fairslator: we have detected no ambiguities-->
+      <div class="state noAmbiguitiesDetected" style="display: none">
+        <div class="status">
+          <span class="icon check grey"></span> No ambiguity detected.
+        </div>
+      </div>
+
+      <!--fairslator: we have detected some ambiguities-->
+      <div class="state ambiguitiesDetected" style="display: none">
+        <div class="status">
+          <span class="icon warning red"></span> Ambiguity detected.
+          <a class="takeItToFairslator" target="_blank" href="#">Open in Fairslator...</a>
+        </div>
+        <div class="disambiguators"></div>
       </div>
 
     </div>
