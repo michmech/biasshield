@@ -250,6 +250,9 @@ const BiasShield={
       if(params && params.get) ret.trgLang=params.get("tl");
       if(params && params.get) ret.srcText=(params.get("text") || "").trim();
       document.querySelectorAll("span.ryNqvb").forEach(el => {ret.trgText=el.innerText.trim()});
+      if(ret.srcLang=="auto"){
+        if(document.querySelector("body").innerHTML.indexOf("English - detected")>-1) ret.srcLang="en";
+      } 
     } else if(this.siteName=="deepl"){
       const fields=window.location.hash.replace(/^\#/, "").split("/");
       if(fields[0]) ret.srcLang=fields[0];
