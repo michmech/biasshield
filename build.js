@@ -18,13 +18,11 @@ function copyFolderSync(from, to) {
 //build for Chrome: 
 copyFolderSync("browser-extension", "built_for_chrome");
 fs.unlinkSync("built_for_chrome/manifest_firefox.json");
-fs.unlinkSync("built_for_chrome/manifest.json");
 fs.renameSync("built_for_chrome/manifest_chrome.json", "built_for_chrome/manifest.json")
 
 //build for Firefox: 
 copyFolderSync("browser-extension", "built_for_firefox");
 fs.unlinkSync("built_for_firefox/manifest_chrome.json");
-fs.unlinkSync("built_for_firefox/manifest.json");
 fs.renameSync("built_for_firefox/manifest_firefox.json", "built_for_firefox/manifest.json")
 let txt=fs.readFileSync("built_for_firefox/biasshield.css", "utf8");
   txt=txt.replace(/chrome-extension:\/\/__MSG_@@extension_id__\//g, "");
