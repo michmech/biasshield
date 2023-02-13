@@ -136,7 +136,7 @@ const Fairslator={
       fairslatorUrl+=`&text=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
       BiasShield.el.querySelector("a.takeItToFairslator").href=fairslatorUrl;
     const container=BiasShield.el.querySelector(".disambiguators");
-    container.innerHTML="";
+    container.innerHTML=`<span class="waiter"></span>`;
     for(const axisKey in Fairslator.axes){
       const axis=Fairslator.axes[axisKey];
       let title="";
@@ -192,7 +192,9 @@ const Fairslator={
         url+=`&axes[${axisKey}]=${axes[axisKey]}`
       }
       console.log(url);
+      BiasShield.el.querySelector("div.disambiguators span.waiter").style.visibility="visible";
       chrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
+        BiasShield.el.querySelector("div.disambiguators span.waiter").style.visibility="hidden";
         if(json.text) BiasShield.injectTranslation(json.text);
       });
     }

@@ -244,6 +244,10 @@ body > div.biasshield div.disambiguators {
   border: 1px solid #209cee;
   border-radius: 4px;
 }
+body > div.biasshield div.disambiguators span.waiter {
+  float: right;
+  visibility: hidden;
+}
 body > div.biasshield div.disambiguators div.disambiguator {
   margin: 0px 0px 10px 0px;
   line-height: 1.5em;
