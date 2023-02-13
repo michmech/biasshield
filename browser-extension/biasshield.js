@@ -47,9 +47,18 @@ const DeBiasByUs={
   unbiasedVersionIndex: 0,
   check: function(){
     window.setTimeout(function(){
-      const isBiased=(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I need a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich brauche einen Arzt.");
-      DeBiasByUs.unbiasedVersions=["Ich brauche ärztliche Hilfe.", "Ich brauche ärztliche Behandlung."]; 
-      DeBiasByUs.unbiasedVersionIndex=0;
+      let isBiased=false;
+      //temporary fake:
+        if(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I need a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich brauche einen Arzt."){
+          isBiased=true;
+          DeBiasByUs.unbiasedVersions=["Ich brauche ärztliche Hilfe.", "Ich brauche ärztliche Behandlung."]; 
+          DeBiasByUs.unbiasedVersionIndex=0;
+        }
+        if(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I am a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich bin Arzt."){
+          isBiased=true;
+          DeBiasByUs.unbiasedVersions=["Ich bin ärztliche Fachkraft."]; 
+          DeBiasByUs.unbiasedVersionIndex=0;
+        }
       if(isBiased) {
         BiasShield.setState("debiasbyus", "alreadyReported", true);
         BiasShield.el.querySelector("span.unbias").style.display="inline";
