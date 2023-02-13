@@ -1,20 +1,17 @@
 # Bias Shield
 
-## Docs
+## Docs for developing browser extensions
 
-https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
+- https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
+- https://developer.chrome.com/docs/extensions/
 
-## Installing
+## Installing for testing
 
-In Firefox: Open the `about:debugging` page, click the *This Firefox* option, click the *Load Temporary Add-on* button, then select any file in your extension's directory. The extension now installs, and remains installed until you restart Firefox.
+- In Firefox: Open the `about:debugging` page, click the *This Firefox* option, click the *Load Temporary Add-on* button, then select any file in your extension's directory. The extension now installs, and remains installed until you restart Firefox.
+
+- In Chrome (or Chromium): Go to `chrome://extensions/`, turn on *Developer mode* in the top-right corner, click the *Load unpacked button* and select your extension's directory.
 
 ## Credits
 
 - Shield icon: https://thenounproject.com/icon/shield-5472411/
 - Check and warning icons: Font Awesome
-
-## Cross-browser stuff
-
-Background images in CSS:
-- Firefox: `background-image: url('images/main.png');`
-- Chrome: `background-image: url('chrome-extension://__MSG_@@extension_id__/images/main.png');`

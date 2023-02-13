@@ -1,4 +1,8 @@
-chrome.runtime.onMessage.addListener(
+let browserOrChrome=null;
+if(!browserOrChrome) try { browserOrChrome=browser; } catch(err) {}
+if(!browserOrChrome) try { browserOrChrome=chrome; } catch(err) {}
+
+browserOrChrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.contentScriptQuery == 'fetchJson') {
       fetch(request.url)

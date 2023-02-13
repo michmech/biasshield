@@ -1,3 +1,5 @@
+console.log("YEY");
+
 const DeBiasByUs={
   //IDs of source and target languages supported by debiasbyus: 
   langs: {

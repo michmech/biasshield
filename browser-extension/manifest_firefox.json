@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "Bias Shield",
+  "version": "0.1",
+  "description": "Push back against bias in machine translation!",
+  "homepage_url": "https://www.biasshield.org/",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "180": "icons/icon-180.png",
+    "192": "icons/icon-192.png",
+    "500": "icons/icon-500.png"
+  },
+  "content_scripts": [{
+    "matches": [
+      "https://translate.google.com/*",
+      "https://www.deepl.com/translator*"
+    ],
+    "js": ["biasshield.js"],
+    "css": ["biasshield.css"]
+  }],
+  "permissions": [
+    "https://xrayapi20220103180040.azurewebsites.net/"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  }
+}
