@@ -42,30 +42,36 @@ const DeBiasByUs={
     return url;    
   },
 
-  //URL at which to lookup a previously reported biased translation:
-  composeLookupUrl: function(){
-    let url=`https://debiasbyus.ugent.be/lookup/`;
-    url+=`?srcLang=${DeBiasByUs.langs[BiasShield.lastScrapeResult.srcLang]}`;
-    url+=`&srcText=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
-    url+=`&trgLang=${DeBiasByUs.langs[BiasShield.lastScrapeResult.trgLang]}`;
-    url+=`&trgText=${encodeURIComponent(BiasShield.lastScrapeResult.trgText)}`;
-    return url;    
-  },
-
   //check whether the current translation has already been reported as biased:
+  unbiasedVersions: [],
+  unbiasedVersionIndex: 0,
   check: function(){
     window.setTimeout(function(){
       const isBiased=(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I need a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich brauche einen Arzt.");
-      const unbiasedVersion="Ich brauche ärtzliche Hilfe."; 
+      DeBiasByUs.unbiasedVersions=["Ich brauche ärztliche Hilfe.", "Ich brauche ärztliche Behandlung."]; 
+      DeBiasByUs.unbiasedVersionIndex=0;
       if(isBiased) {
         BiasShield.setState("debiasbyus", "alreadyReported", true);
-        BiasShield.el.querySelector("a.lookupReport").href=DeBiasByUs.composeLookupUrl();
         BiasShield.el.querySelector("span.unbias").style.display="inline";
+        if(DeBiasByUs.unbiasedVersions.length>1){
+          BiasShield.el.querySelector("span.unbias span.version").innerText=DeBiasByUs.unbiasedVersionIndex+1;
+          BiasShield.el.querySelector("span.unbias span.version").style.display="inline";
+        } else {
+          BiasShield.el.querySelector("span.unbias span.version").innerText="";
+          BiasShield.el.querySelector("span.unbias span.version").style.display="none";
+        }
         BiasShield.el.querySelector("span.ununbias").style.display="none";
         BiasShield.el.querySelector("span.unbias").addEventListener("click", function(){
-          BiasShield.injectTranslation(unbiasedVersion);
-          BiasShield.el.querySelector("span.unbias").style.display="none";
-          BiasShield.el.querySelector("span.ununbias").style.display="inline";
+          BiasShield.injectTranslation(DeBiasByUs.unbiasedVersions[DeBiasByUs.unbiasedVersionIndex]);
+          DeBiasByUs.unbiasedVersionIndex++;
+          if(DeBiasByUs.unbiasedVersionIndex>=DeBiasByUs.unbiasedVersions.length) {
+            DeBiasByUs.unbiasedVersionIndex=0;
+            BiasShield.el.querySelector("span.unbias span.version").innerText=DeBiasByUs.unbiasedVersionIndex+1;
+            BiasShield.el.querySelector("span.unbias").style.display="none";
+            BiasShield.el.querySelector("span.ununbias").style.display="inline";
+          } else {
+            BiasShield.el.querySelector("span.unbias span.version").innerText=DeBiasByUs.unbiasedVersionIndex+1;
+          }
         });
         BiasShield.el.querySelector("span.ununbias").addEventListener("click", function(){
           BiasShield.injectTranslation(BiasShield.lastScrapeResult.trgText);
@@ -74,8 +80,8 @@ const DeBiasByUs={
         });
       } else {
         BiasShield.setState("debiasbyus", "notYetReported", false);
-        BiasShield.el.querySelector("a.submitReport").href=DeBiasByUs.composeSubmitUrl();
       }
+      BiasShield.el.querySelectorAll("a.submitReport").forEach(el=>{el.href=DeBiasByUs.composeSubmitUrl()});
     }, 1000);
   },
 };
@@ -372,9 +378,9 @@ BiasShield.el.innerHTML=`
       <div class="state alreadyReported" style="display: none">
         <div class="status">
           <span class="icon warning red"></span> This translation has previously been reported as gender-biased.
-          <span class="action unbias">Unbias</span>
+          <span class="action unbias">Unbias<span class="version"></span></span>
           <span class="action ununbias">Back to original</span>
-          <a class="lookupReport" target="_blank" href="#">Details...</a>
+          <a class="submitReport" target="_blank" href="#">Submit a different suggestion...</a>
         </div>
       </div>
 

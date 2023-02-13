@@ -52,7 +52,7 @@ body > div.biasshield.minimized span.maximize {
   border-radius: 30px;
   cursor: pointer;
 }
-body > div.biasshield > div.tabs > span.minimize:hover {
+body > div.biasshield.minimized span.maximize:hover {
   background-color: #50ace9;
 }
 
@@ -188,6 +188,13 @@ body > div.biasshield .action:active {
   position: relative;
   top: 1px;
   left: 1px;
+}
+body > div.biasshield .action span.version {
+  border-left: 1px solid #999999;
+  margin-left: 0.5em;
+  padding-left: 0.5em;
+  color: #333333;
+  font-weight: bold;
 }
 
 body > div.biasshield span.waiter {
