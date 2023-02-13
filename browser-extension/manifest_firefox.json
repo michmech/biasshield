@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bias Shield",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Push back against bias in machine translation!",
   "homepage_url": "https://www.biasshield.org/",
   "icons": {
