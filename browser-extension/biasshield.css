@@ -12,7 +12,8 @@ body > div.biasshield {
   border-top: 2px solid #209cee;
   background-color: #edf2f5;
   color: #000000 !important;
-  box-shadow: -2px -2px 0px #dddddd, 2px -2px 0px #eeeeee;
+  /* box-shadow: -2px -2px 0px #dddddd, 2px -2px 0px #eeeeee; */
+  box-shadow: 0px -10px 10px #ffffff;
   z-index: 10000000;
   box-sizing: border-box;
   text-shadow: 1px 1px 0px #dddddd;
@@ -20,6 +21,39 @@ body > div.biasshield {
 }
 body > div.biasshield :not(.fa) { /* DeepL override: */
   font-family: 'Source Sans Pro', Verdana, sans-serif !important;
+}
+
+body > div.biasshield.minimized {
+  height: 0px;
+  padding: 0px;
+}
+body > div.biasshield.minimized > div.tabs {
+  display: none;
+}
+body > div.biasshield.minimized > div.tabBodies {
+  display: none;
+}
+body > div.biasshield span.maximize {
+  display: none;
+}
+body > div.biasshield.minimized span.maximize {
+  display: block;
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  right: 23px;
+  bottom: -15px;
+  box-sizing: border-box; 
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/angle-up-solid.svg);
+  background-position: top+3px center;
+  background-size: 15px auto;
+  background-repeat: no-repeat;
+  background-color: #209cee;
+  border-radius: 30px;
+  cursor: pointer;
+}
+body > div.biasshield > div.tabs > span.minimize:hover {
+  background-color: #50ace9;
 }
 
 body > div.biasshield > div.tabs {
@@ -30,25 +64,50 @@ body > div.biasshield > div.tabs {
   right: 0px;
   z-index: 10000001; 
 }
+body > div.biasshield > div.tabs > span.minimize {
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 30px;
+  top: 35px;
+  box-sizing: border-box; 
+  background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/angle-down-solid.svg);
+  background-position: center;
+  background-size: 15px auto;
+  background-repeat: no-repeat;
+  background-color: #209cee;
+  border-radius: 30px;
+  cursor: pointer;
+}
+body > div.biasshield > div.tabs > span.minimize:hover {
+  background-color: #50ace9;
+}
 body > div.biasshield > div.tabs > div.tab {
   width: 150px;
   height: 43px;
   float: left;
-  margin: 5px 0px 0px 10px;
+  margin: 5px 0px 0px 5px;
   padding: 10px 0px;
   border-radius: 2px 2px 0px 0px;
   text-align: center;
   background-color: #edf2f5;
   color: #ffffff;
-  border-top: 2px solid #999999;
-  box-shadow: -2px -2px 0px #dddddd, 2px -2px 0px #eeeeee;
+  border: 1px solid #999999;
+  border-bottom: 0px;
+  /* box-shadow: -2px -2px 0px #dddddd, 2px -2px 0px #eeeeee; */
+  box-shadow: 0px -10px 10px #ffffff;
   box-sizing: border-box;
   cursor: pointer;
+}
+body > div.biasshield > div.tabs > div.tab:first-child {
+  margin-left: 10px;
 }
 body > div.biasshield > div.tabs > div.tab.current {
   margin-top: 0px;
   height: 50px;
-  border-top: 2px solid #209cee;
+  border-color: #209cee;
+  border-width: 2px;
   background-color: #edf2f5;
 }
 body > div.biasshield > div.tabs > div.tab.debiasbyus {
@@ -74,6 +133,8 @@ body > div.biasshield div.identity {
   float: right;
   white-space: nowrap;
   line-height: 3em;
+  position: relative;
+  top: -2px;
 }
 body > div.biasshield div.identity > a.identity {
   display: block;
@@ -158,8 +219,8 @@ body > div.biasshield span.icon.grey {
   filter: invert(71%) sepia(2%) saturate(2%) hue-rotate(242deg) brightness(86%) contrast(88%);
 }
 body > div.biasshield span.icon.red {
-  color: #b50000;
-  filter: invert(14%) sepia(61%) saturate(6556%) hue-rotate(357deg) brightness(71%) contrast(116%);
+  color: #ff3535;
+  filter: invert(28%) sepia(62%) saturate(2078%) hue-rotate(339deg) brightness(112%) contrast(99%);
 }
 body > div.biasshield span.icon.check {
   background-image: url(chrome-extension://__MSG_@@extension_id__/graphics/check-circle-solid.svg);

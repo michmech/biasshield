@@ -1,5 +1,3 @@
-console.log("YEY");
-
 const DeBiasByUs={
   //IDs of source and target languages supported by debiasbyus: 
   langs: {
@@ -102,6 +100,7 @@ const Fairslator={
     chrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
       console.log(json);
       const axes=json.axes;
+      console.log(axes);
       if(Object.keys(axes).length==0){
         BiasShield.setState("fairslator", "noAmbiguitiesDetected", false);
       } else {
@@ -336,10 +335,13 @@ BiasShield.el.innerHTML=`
   <div class="tabs">
     <div tabindex="0" class="tab debiasbyus off current" title="DeBiasByUs"></div>
     <div tabindex="0" class="tab fairslator off" title="Fairslator"></div>
-    <div class="status"></div>
+    <span tabindex="0" class="minimize" title="Minimize Bias Shield"></span>
   </div>
+  <span tabindex="0" class="maximize" title="Maximize Bias Shield"></span>
   <div class="tabBodies">
-    <div class="identity"><a class="identity" href="https://www.biasshield.org/" target="_blank">Bias Shield</a></div>
+    <div class="identity">
+      <a class="identity" href="https://www.biasshield.org/" target="_blank">Bias Shield</a>
+    </div>
     <div class="tabBody debiasbyus">
   
       <!--debiasbysus: when we haven't detected any translation-->
@@ -440,7 +442,19 @@ BiasShield.el.querySelectorAll(".tabs > .tab").forEach(el => {
   });
 });
 
-//attach our DOM element to the DOM:
+//attach click evens to the minimize/maximize buttons:
+BiasShield.el.querySelectorAll(".minimize").forEach(el => {
+  el.addEventListener("click", function(e){
+    BiasShield.el.classList.add("minimized");
+  });
+});
+BiasShield.el.querySelectorAll(".maximize").forEach(el => {
+  el.addEventListener("click", function(e){
+    BiasShield.el.classList.remove("minimized");
+  });
+});
+
+//attach our element to the DOM:
 document.body.style.paddingBottom="400px";
 document.body.appendChild(BiasShield.el);
 

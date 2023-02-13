@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 384.14999 384.14999"
+   version="1.1"
+   id="svg207"
+   sodipodi:docname="angle-up-solid.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
+   width="384.14999"
+   height="384.14999"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs211" />
+  <sodipodi:namedview
+     id="namedview209"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.2792969"
+     inkscape:cx="185.64885"
+     inkscape:cy="128.58626"
+     inkscape:window-width="1556"
+     inkscape:window-height="836"
+     inkscape:window-x="44"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg207" />
+  <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+  <path
+     d="m 169.475,89.424997 c 12.5,-12.5 32.8,-12.5 45.3,0 l 160,160.000003 c 12.5,12.5 12.5,32.8 0,45.3 -12.5,12.5 -32.8,12.5 -45.3,0 l -137.4,-137.4 -137.4,137.3 c -12.5,12.5 -32.8,12.5 -45.3,0 -12.5,-12.5 -12.5,-32.8 0,-45.3 l 160,-160.000003 z"
+     id="path205"
+     style="fill:#ffffff;fill-opacity:1" />
+</svg>
