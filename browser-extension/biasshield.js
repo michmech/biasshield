@@ -63,47 +63,40 @@ const DeBiasByUs={
     const url=DeBiasByUs.composeCheckUrl();
     console.log(url);
     browserOrChrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
+      //json={reported: true, suggestions: ["Suggestion one.", "Suggestion two."]};
       console.log(json);
-      let isBiased=(json.length>0);
-      DeBiasByUs.unbiasedVersions=json;
-      // temporary fake:
-      // if(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I need a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich brauche einen Arzt."){
-      //   isBiased=true;
-      //   DeBiasByUs.unbiasedVersions=["Ich brauche ärztliche Hilfe.", "Ich brauche ärztliche Behandlung."]; 
-      //   DeBiasByUs.unbiasedVersionIndex=0;
-      // }
-      // if(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I am a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich bin Arzt."){
-      //   isBiased=true;
-      //   DeBiasByUs.unbiasedVersions=["Ich bin ärztliche Fachkraft."]; 
-      //   DeBiasByUs.unbiasedVersionIndex=0;
-      // }
+      let isBiased=json.reported;
+      DeBiasByUs.unbiasedVersionIndex=0;
+      DeBiasByUs.unbiasedVersions=json.suggestions;
       if(isBiased) {
         BiasShield.setState("debiasbyus", "alreadyReported", true);
-        BiasShield.el.querySelector("span.unbias").style.display="inline";
-        if(DeBiasByUs.unbiasedVersions.length>1){
-          BiasShield.el.querySelector("span.unbias span.version").innerText=DeBiasByUs.unbiasedVersionIndex+1;
-          BiasShield.el.querySelector("span.unbias span.version").style.display="inline";
+        if(DeBiasByUs.unbiasedVersions.length>0){
+          BiasShield.el.querySelector("span.unbias").style.display="inline";
+          BiasShield.el.querySelector("a.submitReport span.submitFirst").style.display="none";
+          BiasShield.el.querySelector("a.submitReport span.submitAnother").style.display="inline";
         } else {
-          BiasShield.el.querySelector("span.unbias span.version").innerText="";
-          BiasShield.el.querySelector("span.unbias span.version").style.display="none";
+          BiasShield.el.querySelector("span.unbias").style.display="none";
+          BiasShield.el.querySelector("a.submitReport span.submitFirst").style.display="inline";
+          BiasShield.el.querySelector("a.submitReport span.submitAnother").style.display="none";
         }
         BiasShield.el.querySelector("span.ununbias").style.display="none";
         BiasShield.el.querySelector("span.unbias").addEventListener("click", function(){
           BiasShield.injectTranslation(DeBiasByUs.unbiasedVersions[DeBiasByUs.unbiasedVersionIndex]);
+          if(DeBiasByUs.unbiasedVersions.length>1){
+            BiasShield.el.querySelector("span.unbiasedVersion").innerHTML=`${DeBiasByUs.unbiasedVersionIndex+1}/${DeBiasByUs.unbiasedVersions.length}&nbsp;`;
+          }
           DeBiasByUs.unbiasedVersionIndex++;
           if(DeBiasByUs.unbiasedVersionIndex>=DeBiasByUs.unbiasedVersions.length) {
             DeBiasByUs.unbiasedVersionIndex=0;
-            BiasShield.el.querySelector("span.unbias span.version").innerText=DeBiasByUs.unbiasedVersionIndex+1;
             BiasShield.el.querySelector("span.unbias").style.display="none";
             BiasShield.el.querySelector("span.ununbias").style.display="inline";
-          } else {
-            BiasShield.el.querySelector("span.unbias span.version").innerText=DeBiasByUs.unbiasedVersionIndex+1;
           }
         });
         BiasShield.el.querySelector("span.ununbias").addEventListener("click", function(){
           BiasShield.injectTranslation(BiasShield.lastScrapeResult.trgText);
           BiasShield.el.querySelector("span.unbias").style.display="inline";
           BiasShield.el.querySelector("span.ununbias").style.display="none";
+          BiasShield.el.querySelector("span.unbiasedVersion").innerText="";
         });
       } else {
         BiasShield.setState("debiasbyus", "notYetReported", false);
@@ -417,9 +410,13 @@ BiasShield.el.innerHTML=`
       <div class="state alreadyReported" style="display: none">
         <div class="status">
           <span class="icon warning red"></span> This translation has previously been reported as gender-biased.
-          <span class="action unbias">Unbias<span class="version"></span></span>
+          <span class="action unbias">Unbias</span>
           <span class="action ununbias">Back to original</span>
-          <a class="submitReport" target="_blank" href="#">Submit a different suggestion...</a>
+          <span class="unbiasedVersion"></span>
+          <a class="submitReport" target="_blank" href="#">
+            <span class="submitFirst">Suggest an unbiased version...</span>
+            <span class="submitAnother">Submit your own suggestion...</span>
+          </a>
         </div>
       </div>
 
