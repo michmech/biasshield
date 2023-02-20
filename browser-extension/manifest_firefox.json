@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bias Shield",
-  "version": "0.2",
+  "version": "0.3",
   "description": "Push back against bias in machine translation!",
   "homepage_url": "https://www.biasshield.org/",
   "icons": {
@@ -20,7 +20,8 @@
     "css": ["biasshield.css"]
   }],
   "permissions": [
-    "https://xrayapi20220103180040.azurewebsites.net/"
+    "https://xrayapi20220103180040.azurewebsites.net/",
+    "https://debiasbyus.ugent.be/"
   ],
   "background": {
     "scripts": ["background.js"],

@@ -180,6 +180,7 @@ body > div.biasshield .action {
   margin-left: 5px;
   margin-right: 5px;
   text-decoration: none !important;
+  white-space: nowrap;
 }
 body > div.biasshield .action:hover {
   background-color: #ffffef;

@@ -1,34 +1,38 @@
+let browserOrChrome=null;
+if(!browserOrChrome) try { browserOrChrome=browser; } catch(err) {}
+if(!browserOrChrome) try { browserOrChrome=chrome; } catch(err) {}
+
 const DeBiasByUs={
   //IDs of source and target languages supported by debiasbyus: 
   langs: {
-    "ar": 1,
-    "zh": 2,
-    "zh-CN": 2,
-    "cs": 3,
-    "da": 4,
-    "nl": 5,
-    "en": 6,
-    "fr": 7,
-    "de": 8,
-    "el": 9,
-    "it": 10,
-    "ja": 11,
-    "kk": 12,
-    "fa": 13,
-    "pl": 14,
-    "pt": 16,
-    "ro": 15,
-    "ru": 17,
-    "sl": 21,
-    "es": 18,
-    "tr": 19,
-    "uk": 20,
+    "ar": "ar",
+    "zh": "zh",
+    "zh-CN": "zh",
+    "cs": "cs",
+    "da": "da",
+    "nl": "nl",
+    "en": "en",
+    "fr": "fr",
+    "de": "de",
+    "el": "el",
+    "it": "it",
+    "ja": "ja",
+    "kk": "kk",
+    "fa": "fa",
+    "pl": "pl",
+    "pt": "pt",
+    "ro": "ro",
+    "ru": "ru",
+    "sl": "sl",
+    "es": "es",
+    "tr": "tr",
+    "uk": "uk",
   },
 
   //IDs of sites as understood by debiasbyus:
   sites: {
-    "google": 1,
-    "deepl": 2,
+    "google": "gt",
+    "deepl": "dl",
   },
 
   //URL at which to report a biased translation, with some fields prefilled:
@@ -42,23 +46,37 @@ const DeBiasByUs={
     return url;    
   },
 
+  //URL at which to check for debiased translations:
+  composeCheckUrl: function(){
+    let url=`https://debiasbyus.ugent.be/check/`;
+    url+=`?srcLang=${DeBiasByUs.langs[BiasShield.lastScrapeResult.srcLang]}`;
+    url+=`&srcText=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
+    url+=`&trgLang=${DeBiasByUs.langs[BiasShield.lastScrapeResult.trgLang]}`;
+    url+=`&trgText=${encodeURIComponent(BiasShield.lastScrapeResult.trgText)}`;
+    return url;    
+  },
+
   //check whether the current translation has already been reported as biased:
   unbiasedVersions: [],
   unbiasedVersionIndex: 0,
   check: function(){
-    window.setTimeout(function(){
-      let isBiased=false;
-      //temporary fake:
-        if(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I need a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich brauche einen Arzt."){
-          isBiased=true;
-          DeBiasByUs.unbiasedVersions=["Ich brauche ärztliche Hilfe.", "Ich brauche ärztliche Behandlung."]; 
-          DeBiasByUs.unbiasedVersionIndex=0;
-        }
-        if(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I am a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich bin Arzt."){
-          isBiased=true;
-          DeBiasByUs.unbiasedVersions=["Ich bin ärztliche Fachkraft."]; 
-          DeBiasByUs.unbiasedVersionIndex=0;
-        }
+    const url=DeBiasByUs.composeCheckUrl();
+    console.log(url);
+    browserOrChrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
+      console.log(json);
+      let isBiased=(json.length>0);
+      DeBiasByUs.unbiasedVersions=json;
+      // temporary fake:
+      // if(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I need a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich brauche einen Arzt."){
+      //   isBiased=true;
+      //   DeBiasByUs.unbiasedVersions=["Ich brauche ärztliche Hilfe.", "Ich brauche ärztliche Behandlung."]; 
+      //   DeBiasByUs.unbiasedVersionIndex=0;
+      // }
+      // if(BiasShield.lastScrapeResult.srcLang=="en" && BiasShield.lastScrapeResult.srcText=="I am a doctor." && BiasShield.lastScrapeResult.trgLang=="de" && BiasShield.lastScrapeResult.trgText=="Ich bin Arzt."){
+      //   isBiased=true;
+      //   DeBiasByUs.unbiasedVersions=["Ich bin ärztliche Fachkraft."]; 
+      //   DeBiasByUs.unbiasedVersionIndex=0;
+      // }
       if(isBiased) {
         BiasShield.setState("debiasbyus", "alreadyReported", true);
         BiasShield.el.querySelector("span.unbias").style.display="inline";
@@ -91,7 +109,7 @@ const DeBiasByUs={
         BiasShield.setState("debiasbyus", "notYetReported", false);
       }
       BiasShield.el.querySelectorAll("a.submitReport").forEach(el=>{el.href=DeBiasByUs.composeSubmitUrl()});
-    }, 1000);
+    });
   },
 };
 
@@ -112,7 +130,7 @@ const Fairslator={
     url+=`&trgLang=${BiasShield.lastScrapeResult.trgLang}`;
     url+=`&trgText=${encodeURIComponent(BiasShield.lastScrapeResult.trgText)}`;
     console.log(url);
-    chrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
+    browserOrChrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
       console.log(json);
       const axes=json.axes;
       console.log(axes);
@@ -269,7 +287,16 @@ const BiasShield={
       if(params && params.get) ret.srcText=(params.get("text") || "").trim();
       document.querySelectorAll("span.ryNqvb").forEach(el => {ret.trgText=el.innerText.trim()});
       if(ret.srcLang=="auto"){
-        if(document.querySelector("body").innerHTML.indexOf("English - detected")>-1) ret.srcLang="en";
+        //if(document.querySelector("body").innerHTML.indexOf("English - detected")>-1) ret.srcLang="en";
+        const text=document.querySelector("div.ooArgc").textContent; //eg. "English - detected"
+        if(text.indexOf(" - ")>-1){
+          const langName=text.split(" - ")[0].toLowerCase(); //eg. "english"
+          document.querySelectorAll("span.VfPpkd-AznF2e-LUERP-bN97Pc button").forEach(el => {
+            if(el.hasAttribute("data-language-code") && el.innerText.toLowerCase().trim()==langName){
+              ret.srcLang=el.getAttribute("data-language-code");
+            }
+          });
+        }
       } 
     } else if(this.siteName=="deepl"){
       const fields=window.location.hash.replace(/^\#/, "").split("/");
@@ -317,10 +344,11 @@ const BiasShield={
           Fairslator.analyze();
         }
       }
-      window.setTimeout(BiasShield.check, 2000);
     } catch(err){
       console.log(err);
+      BiasShield.lastScrapeResult={};
     }
+    window.setTimeout(BiasShield.check, 2000);
   },
 
   //insert a translation into the screen:
@@ -354,7 +382,7 @@ BiasShield.el.innerHTML=`
     <div tabindex="0" class="tab fairslator off" title="Fairslator"></div>
     <span tabindex="0" class="minimize" title="Minimize Bias Shield"></span>
   </div>
-  <span tabindex="0" class="maximize" title="Maximize Bias Shield"></span>
+  <span tabindex="0" class="maximize" title="Show Bias Shield"></span>
   <div class="tabBodies">
     <div class="identity">
       <a class="identity" href="https://www.biasshield.org/" target="_blank">Bias Shield</a>
