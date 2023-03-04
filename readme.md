@@ -2,7 +2,7 @@
 
 This is **Bias Shield**, a browser extension which adds bias-handling features to [Google Translate](https://translate.google.com/) and [DeepL Translator](https://www.deepl.com/translator). Bias Shield springs into action while you're using one of these online translators and gives you access to the following debiasing tools:
 
-- [**DeBiasByUs**](https://debiasbyus.ugent.be/): You can use Bias Shield to report gender-biased translations to DeBiasByUs, a project which is building a database of gender-biased translations. Also, Bias Shield warns you when the translation you have been given has previously been reported as gender-biased, and offers you an unbiased translation insteadc (if one is available).
+- [**DeBiasByUs**](https://debiasbyus.ugent.be/): You can use Bias Shield to report gender-biased translations to DeBiasByUs, a project which is building a database of gender-biased translations. Also, Bias Shield warns you when the translation you have been given has previously been reported as gender-biased, and offers you an unbiased translation instead (if one is available).
 
 - [**Fairslator**](https://www.fairslator.com/): Bias Shield lets you make use of Fairslator, an application which automatically detects and corrects biases caused by ambiguities in gender, number and forms of address.
 
