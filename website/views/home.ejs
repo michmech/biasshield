@@ -28,6 +28,10 @@
     <!--font awesome-->
     <script src="https://kit.fontawesome.com/4590cb1fa2.js" crossorigin="anonymous"></script>
 
+    <!--flickity-->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
     <!--my styles-->
     <link type="text/css" rel="stylesheet" href="/all.css" />
 
@@ -38,6 +42,18 @@
     <%}%>
   </head>
   <body>
+
+    <div class="premast">
+      <div class="left">
+        <a class="logo debiasbyus" title="DeBiasByUs" target="_blank" href="https://debiasbyus.ugent.be/"></a>
+        <a class="logo fairslator" title="Fairslator" target="_blank" href="https://www.fairslator.com/"></a>
+      </div>
+      <div class="right">
+        <a class="chrome" target="_blank" href="#">Chrome extension</a>
+        <a class="firefox" target="_blank" href="#">Firefox extension</a>
+        </div>
+    </div>
+
     <div class="column">
 
       <div class="masthead">
@@ -46,12 +62,83 @@
       </div>
 
       <div class="screenshots">
-        <img src="screenshot1.png" alt="Screenshot"/>
+        <div class="screen"><img src="/screenshot1.png" alt="Screenshot"/></div>
+        <div class="screen"><img src="/screenshot2.png" alt="Screenshot"/></div>
+        <div class="screen"><img src="/screenshot3.png" alt="Screenshot"/></div>
+        <div class="screen"><img src="/screenshot4.png" alt="Screenshot"/></div>
+        <div class="screen"><img src="/screenshot5.png" alt="Screenshot"/></div>
+      </div>
+
+      <div class="download">
+        <a class="chrome" target="_blank" href="#">Download for Chrome</a>
+        <a class="firefox" target="_blank" href="#">Download for Firefox</a>
+      </div>
+
+      <div class="blurb">
+        Bias Shield is an extension for your web browser which adds bias-handling features to
+        <a target="_blank" href="https://translate.google.com/">Google Translate</a> and
+        <a target="_blank" href="https://www.deepl.com/translator">DeepL Translator</a>.
+        Bias Shield springs into action while you're using one of these online translators
+        and gives you access to the following debiasing tools:
+      </div>
+
+      <div class="members">
+        <div class="member">
+          <a class="logo debiasbyus" title="DeBiasByUs" target="_blank" href="https://debiasbyus.ugent.be/"></a>
+          <div class="description">
+            You can use Bias Shield to report gender-biased translations to DeBiasByUs,
+            a project which is collecting a database of gender-biased translations.
+            Also, Bias Shield warns you when the translation you have been given
+            has previously been reported as gender-biased, and offers you an unbiased translation instead
+            (if one is available).
+          </div>
+          <div class="url">
+            <a target="_blank" href="https://debiasbyus.ugent.be/">debiasbyus.ugent.be</a>
+          </div>
+        </div>
+        <div class="member">
+          <a class="logo fairslator" title="Fairslator" target="_blank" href="https://www.fairslator.com/"></a>
+          <div class="description">
+            Fairslator is an application which automatically detects and corrects
+            machine translation biases caused by ambiguities in gender and forms of address.
+            Bias Shield plugs Fairslator right into Google Translate and DeepL Translator,
+            so you can use Fairslator's debiasing features without leaving their websites.
+          </div>
+          <div class="url">
+            <a target="_blank" href="https://www.fairslator.com/">www.fairslator.com</a>
+          </div>
+        </div>
       </div>
 
     </div>
+    <div class="footer">
+      <div class="column">
 
+        <a class="goethe" target="_blank" href="https://www.goethe.de/" title="Goethe-Institut"></a>
 
+        <p>
+          Bias Shield is a joint project between
+          <a target="_blank" href="https://debiasbyus.ugent.be/">DeBiasByUs</a>
+          and <a target="_blank" href="https://www.fairslator.com/">Fairslator</a>.
+          Development of Bias Shield has been sponsored by
+          <a target="_blank" href="https://www.goethe.de/">Goethe-Institut</a>
+          under their <a target="_blank" href="https://www.goethe.de/ins/gb/en/kul/lue/art.html">Artificially Correct</a> programme.
+        </p>  
 
+        <p class="clear">
+          Shield icon by
+          <a target="_blank" href="https://thenounproject.com/icon/shield-5472411/">Iqbal Widianto/The Noun Project</a>.
+          Other icons by
+          <a target="_blank" href="https://fontawesome.com/">Font Awesome</a>.
+        </p>
+
+        <p>
+          <span class="icon"><i class="fab fa-github"></i></span>&nbsp;
+          <a target="_blank" href="https://github.com/michmech/biasshield/">Source code</a>
+          available under MIT License.
+        </p>
+
+      </div>
+    </div>
   </body>
 </html>

@@ -3,27 +3,99 @@ html {
   min-height: 100%;
 }
 body {
+  border-top: 2px solid #209cee;
   font-family: 'Source Sans Pro', Verdana, sans-serif !important;
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1.5em;
-  background: rgb(110, 185, 235);
-  background: linear-gradient(180deg, rgb(110, 185, 235) 0%, rgba(237,242,245,1) 300px, rgba(237,242,245,1) 100%);   color: #000000 ;
+  background: rgb(147, 205, 243);
+  background: linear-gradient(180deg, rgb(147, 205, 243) 0%, rgba(237,242,245,1) 300px, rgba(237,242,245,1) 100%);   color: #000000 ;
   padding: 0px;
   margin: 0px;
   text-shadow: 1px 1px 0px #dddddd;
   min-height: 100%;
 }
+a {
+  color: #1374b4;
+}
+a:hover {
+  color: #209cee;
+}
+
+div.premast {
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #209cee;
+  line-height: 1em;
+} 
+div.premast div.left {
+  float: left;
+} 
+div.premast div.right {
+  float: right;
+} 
+div.premast div.left a.logo {
+  display: inline-block;
+  height: 45px;
+  box-sizing: border-box;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+}
+div.premast div.left a.logo:hover {
+  background-color: #f3f3f3;
+}
+div.premast div.left a.logo.debiasbyus {
+  background-image: url(/debiasbyus.png);
+  background-size: auto 30px;
+  width: 150px;
+}
+div.premast div.left a.logo.fairslator {
+  background-size: auto 32px;
+  width: 160px;
+  background-image: url(/fairslator.png);
+  background-position: center top+9px;
+}
+div.premast div.right a {
+  height: 45px;
+  box-sizing: border-box;
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  text-shadow: none;
+  background-repeat: no-repeat;
+  background-position: center left+10px;
+  background-size: 30px 30px;
+  padding: 14px 20px 12px 50px;
+  margin: 0px 0px;
+  color: #0f4e79;
+  border-radius: 2px;
+}
+div.premast div.right a:hover {
+  background-color: #f3f3f3;
+}
+div.premast div.right a.chrome {
+  background-image: url(/chrome.svg);
+}
+div.premast div.right a.firefox {
+  background-image: url(/firefox.svg);
+}
+@media (max-width: 400px){
+  div.premast {
+    display: none;
+  }
+}
 
 div.column {
   box-sizing: border-box;
-  max-width: 1200px;
+  max-width: 900px;
   padding: 20px;
   margin: 0px auto;
 }
 
 div.masthead {
   text-align: center;
-  margin: 30px 0px 70px 0px;
+  margin: 20px 0px 70px 0px;
 }
 div.masthead h1 {
   color: #b50000;
@@ -62,11 +134,163 @@ div.masthead div.slogan {
 }
 
 div.screenshots {
-  max-width: 900px;
+  max-width: 860px;
+  height: auto;
   margin: 0px auto;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #999999;
+}
+div.screenshots div.screen {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
 div.screenshots img {
   width: 100%;
+  height: auto;
+  display: block;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px #999999;
+}
+.flickity-button {
+  /* border: 2px solid #209cee; */
+  background: transparent;
+}
+.flickity-prev-next-button.previous {
+  left: -60px;
+}
+.flickity-prev-next-button.next {
+  right: -60px;
+}
+
+div.download {
+  margin: 70px 0px 60px 0px;
+  text-align: center;
+}
+div.download a {
+  display: inline-block;
+  background-color: #209cee;
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 80px;
+  text-shadow: none;
+  background-repeat: no-repeat;
+  background-position: center left+10px;
+  background-size: 30px 30px;
+  padding: 10px 20px 10px 50px;
+  margin: 10px 20px;
+}
+div.download a:hover {
+  background-color: #4caff1;
+}
+div.download a.chrome {
+  background-image: url(/chrome.svg);
+}
+div.download a.firefox {
+  background-image: url(/firefox.svg);
+}
+@media (max-width: 400px){
+  div.download a {
+    margin: 10px 0px;
+  }
+}
+
+div.blurb {
+
+}
+
+div.members {
+  margin: 60px -40px;
+  overflow-y: auto;
+}
+div.members div.member {
+  float: left;
+  width: 50%;
+  box-sizing: border-box;
+  padding: 0px 40px;
+  text-align: center;
+}
+div.members div.member a.logo {
+  display: inline-block;
+  height: 50px;
+  width: 300px;
+  background-size: auto 40px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+div.members div.member a.logo:hover {
+  background-size: auto 41px;
+}
+div.members div.member a.logo.debiasbyus {
+  background-image: url(/debiasbyus.png);
+}
+div.members div.member a.logo.fairslator {
+  background-image: url(/fairslator.png);
+}
+div.members div.member div.description {
+  margin-top: 20px;
+}
+div.members div.member div.url {
+  margin-top: 20px;
+}
+@media (max-width: 940px){
+  div.members {
+    margin: 60px 0px;
+  }
+  div.members div.member {
+    float: mone;
+    width: auto;
+    padding: 0px 0px;
+    text-align: left;
+    margin-bottom: 60px;
+  }
+  div.members div.member a.logo {
+    width: 100%;
+    max-width: 200px;
+    background-position: center left;
+  }
+}
+
+div.footer {
+  margin-top: 60px;
+  background-color: #dddddd;
+  padding: 20px 0px;
+  font-size: 0.9em;
+  border-top: 2px solid #209cee;
+}
+div.footer p {
+  margin: 3px 0px;
+}
+div.footer p.clear {
+  clear: both;
+  margin-top: 10px;
+}
+div.footer a.goethe {
+  display: block;
+  height: 50px;
+  width: 100px;
+  background-image: url(/goethe.png);
+  background-size: auto 40px;
+  background-color: #ffffff;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  margin: 5px 20px 2px 0px;
+  float: left;
+}
+div.footer a.goethe:hover {
+  background-size: auto 42px;
+}
+div.footer span.icon {
+  font-size: 1.25em;
+  line-height: 1em;
+  position: relative;
+  top: 2px;
+}
+@media (max-width: 400px){
+  div.footer a.goethe {
+    margin-right: 30px;
+  }   
 }
