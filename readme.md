@@ -29,3 +29,7 @@ Make sure you have [Node.js](https://nodejs.org/) installed, then run `node buil
 - Firefox: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
 - Chrome: https://developer.chrome.com/docs/extensions/
 
+## Submitting browser extensions to stores and directories
+
+- Firefox: https://addons.mozilla.org/developers/
+- Chrome: https://chrome.google.com/webstore/devconsole/
