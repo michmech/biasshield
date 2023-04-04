@@ -17,6 +17,7 @@ app.use(wwwRedirect);
 //Our static files:
 app.use("/", express.static(path.join(__dirname, "furniture")));
 app.use("/", express.static(path.join(__dirname, "icons")));
+app.use("/libs", express.static(path.join(__dirname, "libs")));
 
 //Our views:
 app.set("views", path.join(__dirname, "views"));
