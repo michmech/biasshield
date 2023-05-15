@@ -61,10 +61,10 @@ const DeBiasByUs={
   unbiasedVersionIndex: 0,
   check: function(){
     const url=DeBiasByUs.composeCheckUrl();
-    console.log(url);
+    //console.log(url);
     browserOrChrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
       //json={reported: true, suggestions: ["Suggestion one.", "Suggestion two."]};
-      console.log(json);
+      //console.log(json);
       let isBiased=json.reported;
       DeBiasByUs.unbiasedVersionIndex=0;
       DeBiasByUs.unbiasedVersions=json.suggestions;
@@ -122,11 +122,11 @@ const Fairslator={
     url+=`&srcText=${encodeURIComponent(BiasShield.lastScrapeResult.srcText)}`;
     url+=`&trgLang=${BiasShield.lastScrapeResult.trgLang}`;
     url+=`&trgText=${encodeURIComponent(BiasShield.lastScrapeResult.trgText)}`;
-    console.log(url);
+    //console.log(url);
     browserOrChrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
-      console.log(json);
+      //console.log(json);
       const axes=json.axes;
-      console.log(axes);
+      //console.log(axes);
       if(Object.keys(axes).length==0){
         BiasShield.setState("fairslator", "noAmbiguitiesDetected", false);
       } else {
@@ -202,7 +202,7 @@ const Fairslator={
       for(const axisKey in axes){
         url+=`&axes[${axisKey}]=${axes[axisKey]}`
       }
-      console.log(url);
+      //console.log(url);
       BiasShield.el.querySelector("div.disambiguators span.waiter").style.visibility="visible";
       chrome.runtime.sendMessage({contentScriptQuery: 'fetchJson', url: url}, json => {
         BiasShield.el.querySelector("div.disambiguators span.waiter").style.visibility="hidden";
@@ -278,7 +278,10 @@ const BiasShield={
       if(params && params.get) ret.srcLang=params.get("sl");
       if(params && params.get) ret.trgLang=params.get("tl");
       if(params && params.get) ret.srcText=(params.get("text") || "").trim();
-      document.querySelectorAll("span.ryNqvb").forEach(el => {ret.trgText=el.innerText.trim()});
+      document.querySelectorAll("span.ryNqvb").forEach(el => {
+        if(ret.trgText) ret.trgText+=" ";
+        ret.trgText+=el.innerText.trim()
+      });
       if(ret.srcLang=="auto"){
         //if(document.querySelector("body").innerHTML.indexOf("English - detected")>-1) ret.srcLang="en";
         const text=document.querySelector("div.ooArgc").textContent; //eg. "English - detected"
@@ -304,7 +307,7 @@ const BiasShield={
   //called every two seconds to see if the screen state has changed:
   lastScrapeResult: {},
   check: function(){
-    console.log("checking...");
+    //console.log("checking...");
     try{
       const scrapeResult=BiasShield.scrapeScreen();
       if(scrapeResult.srcLang==BiasShield.lastScrapeResult.srcLang
@@ -312,9 +315,9 @@ const BiasShield={
       && scrapeResult.trgLang==BiasShield.lastScrapeResult.trgLang
       && (scrapeResult.trgText==BiasShield.lastScrapeResult.trgText || scrapeResult.trgText==BiasShield.injectedTranslation)
       ){
-        console.log("no change");
+        //console.log("no change");
       } else {
-        console.log("yes change", scrapeResult);
+        //console.log("yes change", scrapeResult);
         BiasShield.lastScrapeResult=scrapeResult;
         
         //determine the state of debiasbyus:
@@ -338,7 +341,7 @@ const BiasShield={
         }
       }
     } catch(err){
-      console.log(err);
+      //console.log(err);
       BiasShield.lastScrapeResult={};
     }
     window.setTimeout(BiasShield.check, 2000);
@@ -501,5 +504,5 @@ document.body.style.paddingBottom="400px";
 document.body.appendChild(BiasShield.el);
 
 //start checking for screen changes every two seconds: 
-console.log("I'm here.");
+//console.log("I'm here.");
 BiasShield.check();
