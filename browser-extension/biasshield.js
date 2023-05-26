@@ -299,7 +299,8 @@ const BiasShield={
       if(fields[0]) ret.srcLang=fields[0];
       if(fields[1]) ret.trgLang=fields[1];
       if(fields[2]) ret.srcText=decodeURIComponent(fields[2]).trim();
-      document.querySelectorAll("#target-dummydiv").forEach(el => {ret.trgText=el.textContent.trim()});
+      // document.querySelectorAll("#target-dummydiv").forEach(el => {ret.trgText=el.textContent.trim()});
+      document.querySelectorAll("section.lmt__side_container--target p").forEach(el => {ret.trgText=el.textContent.trim()});
     }
     return ret;
   },
