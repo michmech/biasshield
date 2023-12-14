@@ -300,7 +300,8 @@ const BiasShield={
       if(fields[1]) ret.trgLang=fields[1];
       if(fields[2]) ret.srcText=decodeURIComponent(fields[2]).trim();
       // document.querySelectorAll("#target-dummydiv").forEach(el => {ret.trgText=el.textContent.trim()});
-      document.querySelectorAll("section.lmt__side_container--target p").forEach(el => {ret.trgText=el.textContent.trim()});
+      // document.querySelectorAll("section.lmt__side_container--target p").forEach(el => {ret.trgText=el.textContent.trim()});
+      document.querySelectorAll("section[aria-labelledby='translation-target-heading'] p").forEach(el => {ret.trgText=el.textContent.trim()});
     }
     return ret;
   },
@@ -356,7 +357,7 @@ const BiasShield={
     }
     else if(this.siteName=="deepl"){
       document.querySelectorAll("#target-dummydiv").forEach(el => {el.textContent=text});
-      document.querySelectorAll("section.lmt__side_container--target p").forEach(el => {el.textContent=text});
+      document.querySelectorAll("section[aria-labelledby='translation-target-heading'] p").forEach(el => {el.textContent=text});
     }
     BiasShield.injectedTranslation=text;
   }
