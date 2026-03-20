@@ -295,13 +295,19 @@ const BiasShield={
         }
       } 
     } else if(this.siteName=="deepl"){
-      const fields=window.location.hash.replace(/^\#/, "").split("/");
-      if(fields[0]) ret.srcLang=fields[0];
-      if(fields[1]) ret.trgLang=fields[1];
-      if(fields[2]) ret.srcText=decodeURIComponent(fields[2]).trim();
-      // document.querySelectorAll("#target-dummydiv").forEach(el => {ret.trgText=el.textContent.trim()});
-      // document.querySelectorAll("section.lmt__side_container--target p").forEach(el => {ret.trgText=el.textContent.trim()});
-      document.querySelectorAll("section[aria-labelledby='translation-target-heading'] p").forEach(el => {ret.trgText=el.textContent.trim()});
+      document.querySelectorAll("a[data-testid=sf-text-open-translator-button]").forEach(a => {
+        if(a.href.indexOf("#") > -1){
+          const fields = a.href.split("#")[1].split("/");
+          if(fields[0]) ret.srcLang=fields[0];
+          if(fields[1]) ret.trgLang=fields[1];
+          if(fields[2]) ret.srcText=decodeURIComponent(fields[2]).trim();
+          if(fields[3]) ret.trgText=decodeURIComponent(fields[3]).trim();
+        }
+      });
+      document.querySelectorAll("d-textarea[data-testid=translator-source-input]").forEach(x => { ret.srcLang = x.lang });
+      document.querySelectorAll("d-textarea[data-testid=translator-target-input]").forEach(x => { ret.trgLang = x.lang });
+      document.querySelectorAll("d-textarea[data-testid=translator-source-input] > div[contenteditable=true]").forEach(x => { ret.srcText = x.innerText.trim() });
+      document.querySelectorAll("d-textarea[data-testid=translator-target-input] > div[contenteditable=true]").forEach(x => { ret.trgText = x.innerText.trim() });
     }
     return ret;
   },
@@ -357,7 +363,8 @@ const BiasShield={
     }
     else if(this.siteName=="deepl"){
       document.querySelectorAll("#target-dummydiv").forEach(el => {el.textContent=text});
-      document.querySelectorAll("section[aria-labelledby='translation-target-heading'] p").forEach(el => {el.textContent=text});
+      document.querySelectorAll("d-textarea[data-testid=translator-target-input] > div[contenteditable=true]").forEach(el => {el.textContent=text});
+      document.querySelectorAll("textarea#target-text-area").forEach(x => {x.value = text});
     }
     BiasShield.injectedTranslation=text;
   }

@@ -14,7 +14,7 @@
   "content_scripts": [{
     "matches": [
       "https://translate.google.com/*",
-      "https://www.deepl.com/translator"
+      "https://www.deepl.com/*"
     ],
     "js": ["biasshield.js"],
     "css": ["biasshield.css"]
